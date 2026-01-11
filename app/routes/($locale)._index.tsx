@@ -1,12 +1,17 @@
 import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
-import {Suspense} from 'react';
+import {Suspense, useState} from 'react';
 import {Image} from '@shopify/hydrogen';
 import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
+import {HeroSlideshow} from '~/components/HeroSlideshow';
+import {TestimonialCard} from '~/components/TestimonialCard';
+import {InstagramFeed} from '~/components/InstagramFeed';
+import {NewsletterSignup} from '~/components/NewsletterSignup';
+import {BrandStory} from '~/components/BrandStory';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'AODOUR - Premium Luxury Bags | Shop Women\'s & Men\'s Bags'}, {name: 'description', content: 'Discover premium quality bags at AODOUR.PK. Shop luxury handbags, backpacks, travel bags, and accessories crafted with attention to detail.'}];
@@ -27,13 +32,14 @@ export async function loader(args: Route.LoaderArgs) {
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
 async function loadCriticalData({context}: Route.LoaderArgs) {
-  const [{collections}] = await Promise.all([
+  const [{collections}, {collections: allCollections}] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
-    // Add other queries here, so that they are loaded in parallel
+    context.storefront.query(ALL_COLLECTIONS_QUERY),
   ]);
 
   return {
     featuredCollection: collections.nodes[0],
+    allCollections: allCollections.nodes,
   };
 }
 
@@ -46,13 +52,28 @@ function loadDeferredData({context}: Route.LoaderArgs) {
   const recommendedProducts = context.storefront
     .query(RECOMMENDED_PRODUCTS_QUERY)
     .catch((error: Error) => {
-      // Log query errors, but don't throw them so the page can still render
+      console.error(error);
+      return null;
+    });
+
+  const bestSellingProducts = context.storefront
+    .query(BEST_SELLING_PRODUCTS_QUERY)
+    .catch((error: Error) => {
+      console.error(error);
+      return null;
+    });
+
+  const newArrivals = context.storefront
+    .query(NEW_ARRIVALS_QUERY)
+    .catch((error: Error) => {
       console.error(error);
       return null;
     });
 
   return {
     recommendedProducts,
+    bestSellingProducts,
+    newArrivals,
   };
 }
 
@@ -60,86 +81,69 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home">
-      <HeroSection />
-      <FeaturedCategories />
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
-      <TrustSection />
+      <HeroSlideshow />
+      <QuickFeaturesBar />
+      <ShopByCategory collections={data.allCollections} />
+      <FeaturedCollectionBanner collection={data.featuredCollection} />
+      <BestSellers products={data.bestSellingProducts} />
+      <NewArrivals products={data.newArrivals} />
+      <BrandStory />
+      <CollectionSpotlight collections={data.allCollections} />
+      <CustomerTestimonials />
+      <InstagramFeed />
+      <WhyChooseAodour />
+      <NewsletterSignup />
     </div>
   );
 }
 
-function HeroSection() {
-  return (
-    <div className="hero-section">
-      <div className="hero-content">
-        <h1 className="hero-title">Elegance Meets Functionality</h1>
-        <p className="hero-subtitle">
-          Discover premium quality bags crafted for the modern lifestyle
-        </p>
-        <div className="hero-cta">
-          <Link to="/collections/all" className="btn btn-primary">
-            Shop Now
-          </Link>
-          <Link to="/collections/new-arrivals" className="btn btn-secondary">
-            New Arrivals
-          </Link>
-        </div>
-      </div>
-      <div className="hero-image">
-        <div className="hero-image-placeholder">
-          {/* Hero image would go here */}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function FeaturedCategories() {
-  const categories = [
-    {
-      title: "Women's Bags",
-      handle: 'womens-bags',
-      description: 'Elegant handbags & totes',
-      icon: '👜',
-    },
-    {
-      title: "Men's Bags",
-      handle: 'mens-bags',
-      description: 'Professional briefcases',
-      icon: '💼',
-    },
-    {
-      title: 'Travel Bags',
-      handle: 'travel-bags',
-      description: 'Durable luggage & duffels',
-      icon: '🧳',
-    },
-    {
-      title: 'Accessories',
-      handle: 'accessories',
-      description: 'Wallets & small leather goods',
-      icon: '👛',
-    },
+function QuickFeaturesBar() {
+  const features = [
+    {icon: '✓', title: 'Authentic Products'},
+    {icon: '🚚', title: 'Free Shipping'},
+    {icon: '↻', title: '30-Day Returns'},
+    {icon: '🔒', title: 'Secure Payment'},
   ];
 
   return (
-    <section className="featured-categories">
+    <section className="quick-features-bar">
+      <div className="quick-features-grid">
+        {features.map((feature, index) => (
+          <div key={index} className="quick-feature-item">
+            <span className="quick-feature-icon">{feature.icon}</span>
+            <span className="quick-feature-title">{feature.title}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ShopByCategory({collections}: {collections: any[]}) {
+  const displayCollections = collections.slice(0, 8);
+
+  return (
+    <section className="shop-by-category">
       <div className="section-header">
         <h2>Shop By Category</h2>
         <p>Find the perfect bag for every occasion</p>
       </div>
       <div className="categories-grid">
-        {categories.map((category) => (
+        {displayCollections.map((collection) => (
           <Link
-            key={category.handle}
-            to={`/collections/${category.handle}`}
+            key={collection.id}
+            to={`/collections/${collection.handle}`}
             className="category-card"
           >
-            <div className="category-icon">{category.icon}</div>
-            <h3>{category.title}</h3>
-            <p>{category.description}</p>
-            <span className="category-link">Shop Now →</span>
+            {collection.image && (
+              <div className="category-card-image">
+                <Image data={collection.image} sizes="(min-width: 768px) 25vw, 50vw" />
+              </div>
+            )}
+            <div className="category-card-content">
+              <h3>{collection.title}</h3>
+              <span className="category-link">Shop Now →</span>
+            </div>
           </Link>
         ))}
       </div>
@@ -147,7 +151,7 @@ function FeaturedCategories() {
   );
 }
 
-function FeaturedCollection({
+function FeaturedCollectionBanner({
   collection,
 }: {
   collection: FeaturedCollectionFragment;
@@ -155,7 +159,7 @@ function FeaturedCollection({
   if (!collection) return null;
   const image = collection?.image;
   return (
-    <section className="featured-collection-section">
+    <section className="featured-collection-banner">
       <Link
         className="featured-collection"
         to={`/collections/${collection.handle}`}
@@ -174,23 +178,19 @@ function FeaturedCollection({
   );
 }
 
-function RecommendedProducts({
-  products,
-}: {
-  products: Promise<RecommendedProductsQuery | null>;
-}) {
+function BestSellers({products}: {products: Promise<any>}) {
   return (
-    <section className="recommended-products">
+    <section className="best-sellers-section">
       <div className="section-header">
-        <h2>Bestsellers</h2>
-        <p>Our most loved bags</p>
+        <h2>Best Sellers</h2>
+        <p>Our most loved bags this season</p>
       </div>
       <Suspense fallback={<div className="loading-spinner">Loading...</div>}>
         <Await resolve={products}>
           {(response) => (
-            <div className="recommended-products-grid">
+            <div className="best-sellers-grid">
               {response
-                ? response.products.nodes.map((product) => (
+                ? response.products.nodes.map((product: any) => (
                     <ProductItem key={product.id} product={product} />
                   ))
                 : null}
@@ -200,45 +200,158 @@ function RecommendedProducts({
       </Suspense>
       <div className="section-cta">
         <Link to="/collections/all" className="btn btn-outline">
-          View All Products
+          View All Bestsellers
         </Link>
       </div>
     </section>
   );
 }
 
-function TrustSection() {
-  const features = [
+function NewArrivals({products}: {products: Promise<any>}) {
+  return (
+    <section className="new-arrivals-section">
+      <div className="section-header">
+        <h2>New Arrivals</h2>
+        <p>Discover our latest collection</p>
+      </div>
+      <Suspense fallback={<div className="loading-spinner">Loading...</div>}>
+        <Await resolve={products}>
+          {(response) => (
+            <div className="new-arrivals-scroll">
+              {response
+                ? response.products.nodes.map((product: any) => (
+                    <ProductItem key={product.id} product={product} />
+                  ))
+                : null}
+            </div>
+          )}
+        </Await>
+      </Suspense>
+    </section>
+  );
+}
+
+function CollectionSpotlight({collections}: {collections: any[]}) {
+  const spotlightCollections = collections.slice(0, 3);
+
+  return (
+    <section className="collection-spotlight">
+      <div className="section-header">
+        <h2>Featured Collections</h2>
+        <p>Curated selections for every style</p>
+      </div>
+      <div className="spotlight-grid">
+        {spotlightCollections.map((collection) => (
+          <Link
+            key={collection.id}
+            to={`/collections/${collection.handle}`}
+            className="spotlight-card"
+          >
+            {collection.image && (
+              <div className="spotlight-image">
+                <Image data={collection.image} sizes="(min-width: 768px) 33vw, 100vw" />
+              </div>
+            )}
+            <div className="spotlight-content">
+              <h3>{collection.title}</h3>
+              <span className="spotlight-link">Explore →</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CustomerTestimonials() {
+  const testimonials = [
     {
-      icon: '✓',
-      title: 'Authentic Products',
-      description: '100% genuine bags',
+      name: 'Sarah Ahmed',
+      rating: 5,
+      review:
+        'Absolutely love my AODOUR handbag! The quality is exceptional and it goes with everything in my wardrobe. Best purchase this year!',
+      location: 'Karachi, Pakistan',
+      image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/testimonial-1.jpg',
     },
     {
-      icon: '🚚',
-      title: 'Free Shipping',
-      description: 'On orders over Rs. 5000',
+      name: 'Ali Hassan',
+      rating: 5,
+      review:
+        'The leather briefcase is exactly what I needed for work. Professional, durable, and stylish. Highly recommend AODOUR!',
+      location: 'Lahore, Pakistan',
+      image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/testimonial-2.jpg',
     },
     {
-      icon: '↻',
-      title: 'Easy Returns',
-      description: '30-day return policy',
-    },
-    {
-      icon: '🔒',
-      title: 'Secure Payment',
-      description: 'Safe & encrypted checkout',
+      name: 'Ayesha Khan',
+      rating: 5,
+      review:
+        'Amazing customer service and beautiful products. The travel bag I bought has been my constant companion on all my trips.',
+      location: 'Islamabad, Pakistan',
+      image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/testimonial-3.jpg',
     },
   ];
 
   return (
-    <section className="trust-section">
-      <div className="trust-grid">
-        {features.map((feature, index) => (
-          <div key={index} className="trust-item">
-            <div className="trust-icon">{feature.icon}</div>
-            <h3>{feature.title}</h3>
-            <p>{feature.description}</p>
+    <section className="testimonials-section">
+      <div className="section-header">
+        <h2>What Our Customers Say</h2>
+        <p>Real reviews from real customers</p>
+      </div>
+      <div className="testimonials-grid">
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard key={index} {...testimonial} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WhyChooseAodour() {
+  const reasons = [
+    {
+      icon: '🎨',
+      title: 'Timeless Design',
+      description: 'Classic styles that never go out of fashion',
+    },
+    {
+      icon: '✨',
+      title: 'Premium Quality',
+      description: 'Handcrafted with the finest materials',
+    },
+    {
+      icon: '🌱',
+      title: 'Sustainable',
+      description: 'Ethically sourced and eco-friendly production',
+    },
+    {
+      icon: '💎',
+      title: 'Attention to Detail',
+      description: 'Every stitch, every seam perfected',
+    },
+    {
+      icon: '🛡️',
+      title: 'Lifetime Quality',
+      description: 'Built to last for years to come',
+    },
+    {
+      icon: '💝',
+      title: 'Gift Ready',
+      description: 'Elegant packaging for special occasions',
+    },
+  ];
+
+  return (
+    <section className="why-choose-section">
+      <div className="section-header">
+        <h2>Why Choose AODOUR</h2>
+        <p>More than just bags—a commitment to excellence</p>
+      </div>
+      <div className="why-choose-grid">
+        {reasons.map((reason, index) => (
+          <div key={index} className="why-choose-card">
+            <div className="why-choose-icon">{reason.icon}</div>
+            <h3>{reason.title}</h3>
+            <p>{reason.description}</p>
           </div>
         ))}
       </div>
@@ -269,6 +382,29 @@ const FEATURED_COLLECTION_QUERY = `#graphql
   }
 ` as const;
 
+const ALL_COLLECTIONS_QUERY = `#graphql
+  fragment CollectionItem on Collection {
+    id
+    title
+    handle
+    image {
+      id
+      url
+      altText
+      width
+      height
+    }
+  }
+  query AllCollections($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    collections(first: 8, sortKey: TITLE) {
+      nodes {
+        ...CollectionItem
+      }
+    }
+  }
+` as const;
+
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   fragment RecommendedProduct on Product {
     id
@@ -293,6 +429,64 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     products(first: 4, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...RecommendedProduct
+      }
+    }
+  }
+` as const;
+
+const BEST_SELLING_PRODUCTS_QUERY = `#graphql
+  fragment BestSellingProduct on Product {
+    id
+    title
+    handle
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    featuredImage {
+      id
+      url
+      altText
+      width
+      height
+    }
+  }
+  query BestSellingProducts($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    products(first: 8, sortKey: BEST_SELLING) {
+      nodes {
+        ...BestSellingProduct
+      }
+    }
+  }
+` as const;
+
+const NEW_ARRIVALS_QUERY = `#graphql
+  fragment NewArrival on Product {
+    id
+    title
+    handle
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    featuredImage {
+      id
+      url
+      altText
+      width
+      height
+    }
+  }
+  query NewArrivals($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    products(first: 8, sortKey: CREATED_AT, reverse: true) {
+      nodes {
+        ...NewArrival
       }
     }
   }
