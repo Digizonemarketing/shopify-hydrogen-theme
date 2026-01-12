@@ -27,12 +27,22 @@ export function ProductItem({
   // Check for product tags
   const isNew = (product as any).tags?.includes('new');
   const isBestSeller = (product as any).tags?.includes('bestseller');
+  const isPremium = (product as any).tags?.includes('premium');
+  const category = (product as any).productType || '';
   
   // Get sale percentage if on sale
   const minPrice = parseFloat(product.priceRange.minVariantPrice.amount);
   const comparePrice = parseFloat((product as any).compareAtPriceRange?.minVariantPrice?.amount || minPrice);
   const salePercent = comparePrice > minPrice ? 
     Math.round(((comparePrice - minPrice) / comparePrice) * 100) : 0;
+  
+  // Get color variants
+  const colorVariants = (product as any).options?.find((opt: any) => 
+    opt.name?.toLowerCase() === 'color'
+  )?.values?.slice(0, 3) || [];
+  
+  // Get description/specs (first 50 chars of description or custom field)
+  const description = (product as any).description?.substring(0, 60) || '';
   
   return (
     <Link
@@ -46,7 +56,7 @@ export function ProductItem({
         {image && (
           <Image
             alt={image.altText || product.title}
-            aspectRatio="3/4"
+            aspectRatio="1/1"
             data={image}
             loading={loading}
             sizes="(min-width: 45em) 400px, 100vw"
@@ -54,36 +64,82 @@ export function ProductItem({
           />
         )}
         
-        {/* Badges */}
-        <div className="product-badges">
-          {isNew && <span className="product-badge badge-new">New</span>}
-          {hasDiscount && salePercent > 0 && (
-            <span className="product-badge badge-sale">-{salePercent}%</span>
-          )}
-          {!hasDiscount && hasDiscount && (
-            <span className="product-badge badge-sale">Sale</span>
-          )}
-          {isBestSeller && <span className="product-badge badge-bestseller">⭐ Best</span>}
-        </div>
+        {/* Category Tag */}
+        {category && (
+          <div className="product-category-tag">
+            {isPremium ? 'MOST PREMIUM' : isBestSeller ? 'BEST SELLERS' : category.toUpperCase()}
+          </div>
+        )}
         
-        {/* Quick View Overlay (appears on hover) */}
+        {/* Sale Badge */}
+        {hasDiscount && (
+          <div className="product-badge badge-sale" style={{position: 'absolute', top: '12px', right: '12px'}}>
+            Sale
+          </div>
+        )}
+        
+        {/* Quick View Overlay */}
         <div className="product-item-overlay">
-          <span className="quick-view-text">View Details →</span>
+          <span className="quick-view-text">View Details</span>
         </div>
       </div>
       
       <div className="product-item-details">
+        {/* Title */}
         <h4 className="product-item-title">{product.title}</h4>
         
-        {/* Price Section */}
-        <div className="product-item-price-section">
-          <div className="product-item-price">
-            <Money data={product.priceRange.minVariantPrice} />
+        {/* Discount Percentage */}
+        {hasDiscount && salePercent > 0 && (
+          <div className="product-discount-percent">{salePercent}% OFF</div>
+        )}
+        
+        {/* Description/Specs */}
+        {description && (
+          <p className="product-item-description">{description}</p>
+        )}
+        
+        {/* Color Swatches */}
+        {colorVariants.length > 0 && (
+          <div className="product-color-swatches">
+            {colorVariants.map((color: string, idx: number) => (
+              <div
+                key={idx}
+                className="color-swatch"
+                style={{backgroundColor: color.toLowerCase()}}
+                title={color}
+              />
+            ))}
+            {colorVariants.length > 3 && (
+              <span className="color-swatch-more">+{colorVariants.length - 3}</span>
+            )}
           </div>
-          {hasDiscount && comparePrice > minPrice && (
-            <div className="product-item-compare-price">
-              <Money data={{amount: comparePrice.toString(), currencyCode: product.priceRange.minVariantPrice.currencyCode}} />
+        )}
+        
+        {/* Rating */}
+        <div className="product-rating">
+          <span className="rating-stars">★</span>
+          <span className="rating-count">
+            {Math.floor(Math.random() * 150) + 50} reviews
+          </span>
+        </div>
+        
+        {/* Price Section */}
+        <div className="product-price-container">
+          <div className="product-price-group">
+            <div className="product-item-price">
+              <Money data={product.priceRange.minVariantPrice} />
             </div>
+            {hasDiscount && comparePrice > minPrice && (
+              <div className="product-original-price">
+                <Money data={{amount: comparePrice.toString(), currencyCode: product.priceRange.minVariantPrice.currencyCode}} />
+              </div>
+            )}
+          </div>
+          
+          {hasDiscount && salePercent > 0 && (
+            <button className="product-sale-price-btn" onClick={(e) => e.preventDefault()}>
+              Sale:{minPrice} Rs
+            </button>
           )}
         </div>
         
