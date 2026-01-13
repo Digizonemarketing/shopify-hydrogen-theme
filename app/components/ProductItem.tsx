@@ -249,7 +249,7 @@ export const ProductItem = memo(function ProductItem({
                   'Product image'
                 }
                 loading={loading}
-                className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.02] animate-fade-in"
+                className="h-100 w-100 object-contain transition-transform duration-500 group-hover:scale-[1.02] animate-fade-in"
                 sizes="(min-width: 64em) 320px, (min-width: 48em) 33vw, 50vw"
               />
             ) : (
