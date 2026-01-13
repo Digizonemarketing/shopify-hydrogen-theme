@@ -192,7 +192,7 @@ export const ProductItem = memo(function ProductItem({
     if (variants.length <= 1) return false;
     const allDefaultTitle = variants.every((v: any) => {
       const title = String(v?.title ?? '').trim().toLowerCase();
-      return title === '' || title === 'default title';
+      return title === '';
     });
     return !allDefaultTitle;
   }, [variants]);
