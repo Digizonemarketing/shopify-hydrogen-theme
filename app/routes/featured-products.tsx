@@ -62,13 +62,63 @@ const COLLECTION_QUERY = `#graphql
           id
           handle
           title
-          description
+          productType
           featuredImage {
             id
             altText
             url
             width
             height
+          }
+          selectedOrFirstAvailableVariant {
+            id
+            title
+            availableForSale
+            selectedOptions {
+              name
+              value
+            }
+            image {
+              id
+              url
+              altText
+              width
+              height
+            }
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
+          }
+          variants(first: 12) {
+            nodes {
+              id
+              title
+              availableForSale
+              selectedOptions {
+                name
+                value
+              }
+              image {
+                id
+                url
+                altText
+                width
+                height
+              }
+              price {
+                amount
+                currencyCode
+              }
+              compareAtPrice {
+                amount
+                currencyCode
+              }
+            }
           }
           priceRange {
             minVariantPrice {
@@ -86,14 +136,6 @@ const COLLECTION_QUERY = `#graphql
               currencyCode
             }
           }
-          productType
-          tags
-          options {
-            id
-            name
-            values
-          }
-          availableForSale
         }
       }
     }

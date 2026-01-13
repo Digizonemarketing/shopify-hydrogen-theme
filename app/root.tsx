@@ -81,13 +81,42 @@ export function links() {
 }
 
 export async function loader(args: Route.LoaderArgs) {
+  const {storefront, env} = args.context;
+
+  const allowMockStore =
+    (env as any).ALLOW_MOCK_STORE === '1' ||
+    (env as any).ALLOW_MOCK_STORE === 'true';
+
+  const missingStoreConfig =
+    !env.PUBLIC_STORE_DOMAIN ||
+    !env.PUBLIC_STOREFRONT_API_TOKEN ||
+    !env.PUBLIC_STOREFRONT_ID;
+
+  if (missingStoreConfig && !allowMockStore) {
+    throw new Response(
+      [
+        'Storefront env is not configured.',
+        '',
+        'Required env vars:',
+        '- PUBLIC_STORE_DOMAIN',
+        '- PUBLIC_STOREFRONT_API_TOKEN',
+        '- PUBLIC_STOREFRONT_ID',
+        '',
+        'Fix:',
+        '- Run `npx shopify hydrogen link` (recommended), or',
+        '- Run `npx shopify hydrogen env pull` to populate .env',
+        '',
+        'If you intentionally want to run without a linked store, set ALLOW_MOCK_STORE=1.',
+      ].join('\n'),
+      {status: 500},
+    );
+  }
+
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
 
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
-
-  const {storefront, env} = args.context;
 
   const judgemeShopDomain =
     (env as any).PUBLIC_JUDGEME_SHOP_DOMAIN ?? env.PUBLIC_STORE_DOMAIN;

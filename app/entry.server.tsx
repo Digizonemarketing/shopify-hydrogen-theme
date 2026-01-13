@@ -14,15 +14,33 @@ export default async function handleRequest(
   reactRouterContext: EntryContext,
   context: HydrogenRouterContextProvider,
 ) {
+  const isDev = process.env.NODE_ENV !== 'production';
+
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
-    styleSrc: ['https://fonts.googleapis.com', 'https://cdnwidget.judge.me'],
-    fontSrc: ['https://fonts.gstatic.com', 'https://cdnwidget.judge.me'],
-    scriptSrc: ['https://cdnwidget.judge.me'],
-    connectSrc: ['https://cache.judge.me', 'https://judge.me'],
+    // NOTE: Passing these arrays replaces Hydrogen defaults, so include 'self'
+    // and (in dev) allow Vite/React Router module scripts and HMR.
+    styleSrc: [
+      "'self'",
+      'https://fonts.googleapis.com',
+      'https://cdnwidget.judge.me',
+      ...(isDev ? ["'unsafe-inline'"] : []),
+    ],
+    fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://cdnwidget.judge.me'],
+    scriptSrc: [
+      "'self'",
+      'https://cdnwidget.judge.me',
+      ...(isDev ? ["'unsafe-eval'"] : []),
+    ],
+    connectSrc: [
+      "'self'",
+      'https://cache.judge.me',
+      'https://judge.me',
+      ...(isDev ? ['ws:', 'wss:'] : []),
+    ],
     imgSrc: [
       "'self'",
       'https://cdn.shopify.com',
