@@ -1,15 +1,15 @@
-import {memo, useEffect, useMemo, useState} from 'react';
-import {Link} from 'react-router';
-import {Image, Money} from '@shopify/hydrogen';
-import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
-import {ShoppingBag, Heart, Eye, GitCompareArrows, Star} from 'lucide-react';
+import { memo, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router';
+import { Image, Money } from '@shopify/hydrogen';
+import type { MoneyV2 } from '@shopify/hydrogen/storefront-api-types';
+import { ShoppingBag, Heart, Eye, GitCompareArrows, Star } from 'lucide-react';
 import type {
   ProductItemFragment,
   CollectionItemFragment,
   RecommendedProductFragment,
 } from 'storefrontapi.generated';
-import {useVariantUrl} from '~/lib/variants';
-import {AddToCartButton} from './AddToCartButton';
+import { useVariantUrl } from '~/lib/variants';
+import { AddToCartButton } from './AddToCartButton';
 
 type ProductWithOptionalPricing =
   | CollectionItemFragment
@@ -20,7 +20,7 @@ function getCompareAtMinPrice(
   product: ProductWithOptionalPricing,
 ): MoneyV2 | undefined {
   const maybeCompareAt = (product as unknown as {
-    compareAtPriceRange?: {minVariantPrice?: MoneyV2 | null} | null;
+    compareAtPriceRange?: { minVariantPrice?: MoneyV2 | null } | null;
   })?.compareAtPriceRange?.minVariantPrice;
 
   return maybeCompareAt ?? undefined;
@@ -37,7 +37,7 @@ function getSubtitle(product: ProductWithOptionalPricing): string | undefined {
 
 function getColorValueFromVariant(variant: any): string | undefined {
   const opts = variant?.selectedOptions as
-    | Array<{name?: string | null; value?: string | null}>
+    | Array<{ name?: string | null; value?: string | null }>
     | undefined;
   if (!opts?.length) return undefined;
   const match = opts.find((o) => {
@@ -188,9 +188,9 @@ export const ProductItem = memo(function ProductItem({
     [variants],
   );
 
-  const {visibleVariants, hiddenCount} = useMemo(() => {
+  const { visibleVariants, hiddenCount } = useMemo(() => {
     if (showAllVariants) {
-      return {visibleVariants: variants, hiddenCount: 0};
+      return { visibleVariants: variants, hiddenCount: 0 };
     }
 
     const top = variants.slice(0, 3);
@@ -201,7 +201,7 @@ export const ProductItem = memo(function ProductItem({
 
     const merged = !selectedInTop && selected ? [...top.slice(0, 2), selected] : top;
     const hidden = Math.max(0, variants.length - 3);
-    return {visibleVariants: merged, hiddenCount: hidden};
+    return { visibleVariants: merged, hiddenCount: hidden };
   }, [showAllVariants, variants, selectedVariantId]);
 
   const imageKey =
@@ -307,12 +307,6 @@ export const ProductItem = memo(function ProductItem({
               </span>
             ) : null}
           </div>
-
-          {hasDiscount ? (
-            <div className="mt-1 text-xs text-white/60">
-              Sale price • Compare at shown
-            </div>
-          ) : null}
         </div>
       </Link>
 
@@ -328,10 +322,10 @@ export const ProductItem = memo(function ProductItem({
 
               const label = !hasColorVariants
                 ? String(v?.title ?? '')
-                    .split('/')
-                    .map((s) => s.trim())
-                    .filter(Boolean)[0]
-                    ?.slice(0, 14)
+                  .split('/')
+                  .map((s) => s.trim())
+                  .filter(Boolean)[0]
+                  ?.slice(0, 14)
                 : undefined;
 
               return (
@@ -358,10 +352,10 @@ export const ProductItem = memo(function ProductItem({
                   style={
                     hasColorVariants
                       ? {
-                          background:
-                            swatchColor ??
-                            'repeating-linear-gradient(45deg, rgba(255,255,255,0.18), rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.06) 6px, rgba(255,255,255,0.06) 12px)',
-                        }
+                        background:
+                          swatchColor ??
+                          'repeating-linear-gradient(45deg, rgba(255,255,255,0.18), rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.06) 6px, rgba(255,255,255,0.06) 12px)',
+                      }
                       : undefined
                   }
                 >
@@ -411,7 +405,7 @@ export const ProductItem = memo(function ProductItem({
         <div className="flex items-center gap-2">
           {variantId ? (
             <AddToCartButton
-              lines={[{merchandiseId: variantId, quantity: 1}]}
+              lines={[{ merchandiseId: variantId, quantity: 1 }]}
               className="group flex-1 h-11 bg-brand-neon hover:bg-brand-neon-light text-slate-950 font-extrabold px-4 rounded-xl inline-flex items-center justify-center gap-2 shadow-glow-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:translate-y-[1px]"
               ariaLabel={product.title ? `Add ${product.title} to cart` : 'Add to cart'}
             >
