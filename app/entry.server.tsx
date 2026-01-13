@@ -23,7 +23,15 @@ export default async function handleRequest(
     fontSrc: ['https://fonts.gstatic.com', 'https://cdnwidget.judge.me'],
     scriptSrc: ['https://cdnwidget.judge.me'],
     connectSrc: ['https://cache.judge.me', 'https://judge.me'],
-    imgSrc: ['https://cdnwidget.judge.me', 'https://cache.judge.me', 'https://judge.me', 'data:'],
+    imgSrc: [
+      "'self'",
+      'https://cdn.shopify.com',
+      'https://cdnwidget.judge.me',
+      'https://cache.judge.me',
+      'https://judge.me',
+      'data:',
+      'blob:',
+    ],
   });
 
   const body = await renderToReadableStream(
