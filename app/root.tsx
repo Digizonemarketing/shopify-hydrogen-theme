@@ -206,6 +206,23 @@ export function Layout({children}: {children?: React.ReactNode}) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="color-scheme" content="dark light" />
+        {/* Prevent theme flash: set data-theme before CSS paints */}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+  try {
+    const stored = localStorage.getItem('theme');
+    const systemPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    const theme = stored === 'light' || stored === 'dark' ? stored : (stored === 'system' || !stored) ? (systemPrefersLight ? 'light' : 'dark') : 'dark';
+    const root = document.documentElement;
+    root.setAttribute('data-theme', theme === 'system' ? (systemPrefersLight ? 'light' : 'dark') : theme);
+    root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+  } catch {}
+})();`,
+          }}
+        />
         <link rel="stylesheet" href={tailwindCss}></link>
         <link rel="stylesheet" href={resetStyles}></link>
         <link rel="stylesheet" href={appStyles}></link>

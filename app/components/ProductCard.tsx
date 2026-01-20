@@ -90,30 +90,31 @@ export function ProductCard({
         className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-2 rounded-2xl"
       >
         <div
-          className={
-            'relative bg-gradient-to-br from-cyan-400 to-blue-600 rounded-2xl mb-4 overflow-hidden ' +
-            resolvedImageHeightClassName
-          }
+          className="relative bg-gradient-to-br from-cyan-400 to-blue-600 rounded-2xl mb-4 overflow-hidden"
+          style={{width: '100%', maxWidth: 250, aspectRatio: '1 / 1'}}
         >
-          <div className="h-full w-full p-6 flex items-center justify-center">
-            {primaryImage ? (
-              <Image
-                data={primaryImage}
-                alt={primaryImage.altText || title || 'Product image'}
-                loading={loading}
-                sizes="(min-width: 64em) 320px, (min-width: 40em) 45vw, 90vw"
-                className="h-full w-full object-contain"
-              />
-            ) : (
-              <div aria-hidden className="h-full w-full rounded-xl bg-white/20" />
-            )}
-          </div>
+          {primaryImage ? (
+            <Image
+              data={primaryImage}
+              alt={primaryImage.altText || title || 'Product image'}
+              width={500}
+              height={500}
+              aspectRatio="1/1"
+              loading={loading}
+              crop="center"
+              sizes="(min-width: 768px) 250px, 90vw"
+              className="absolute inset-0 h-full w-full object-cover"
+              decoding="async"
+            />
+          ) : (
+            <div aria-hidden className="absolute inset-0 h-full w-full rounded-xl bg-white/20" />
+          )}
         </div>
 
         {code ? (
-          <p className="text-xs text-gray-500 mb-1">Code {code}</p>
+          <p className="text-[10px] text-gray-500 mb-1.5 tracking-wide">Code {code}</p>
         ) : null}
-        <h3 className="font-bold text-lg mb-2 line-clamp-2">{title}</h3>
+        <h3 className="font-bold text-[18px] text-gray-900 mb-2 line-clamp-2">{title}</h3>
       </Link>
 
       {featured ? (
@@ -152,14 +153,14 @@ export function ProductCard({
         </div>
       ) : null}
 
-      <div className="flex gap-2 items-center justify-between">
+      <div className="flex gap-2.5 items-center justify-between mt-4">
         <Link
           to={href}
           prefetch="intent"
           className={
             featured
-              ? 'flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2'
-              : 'flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg'
+              ? 'flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-200'
+              : 'flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2.5 px-4 rounded-lg transition-all duration-200'
           }
           aria-label={title ? `View ${title}` : 'View product'}
         >
@@ -176,8 +177,8 @@ export function ProductCard({
           type="button"
           className={
             featured
-              ? 'px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg'
-              : 'px-3 py-2 border-2 border-cyan-500 text-cyan-500 rounded-full hover:bg-cyan-50'
+              ? 'h-11 w-11 inline-flex items-center justify-center bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg transition-all duration-200'
+              : 'h-11 w-11 inline-flex items-center justify-center border-2 border-cyan-500 text-cyan-500 rounded-full hover:bg-cyan-50 transition-all duration-200'
           }
           aria-label="Add to wishlist"
         >
@@ -185,11 +186,11 @@ export function ProductCard({
         </button>
       </div>
 
-      <p className="text-xl font-bold mt-4">
+      <p className="text-[20px] font-extrabold mt-3.5 text-gray-900">
         {minPrice ? (
           isPriceRange ? (
             <span className="inline-flex items-baseline gap-2">
-              <span className="text-xs text-gray-500">From</span>
+              <span className="text-[10px] text-gray-500">From</span>
               <Money data={minPrice} />
             </span>
           ) : (

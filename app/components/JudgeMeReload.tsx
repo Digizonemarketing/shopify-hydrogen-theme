@@ -1,10 +1,12 @@
 import {useEffect} from 'react';
 import {useLocation} from 'react-router';
 
-export function JudgeMeReload() {
+export function JudgeMeReload({enabled = false}: {enabled?: boolean}) {
   const location = useLocation();
 
   useEffect(() => {
+    if (!enabled) return;
+
     const w = window as any;
     const cacheServer = w?.jdgmCacheServer;
 
@@ -16,7 +18,7 @@ export function JudgeMeReload() {
     if (typeof cacheServer?.reloadAll === 'function') {
       cacheServer.reloadAll();
     }
-  }, [location.pathname, location.search]);
+  }, [enabled, location.pathname, location.search]);
 
   return null;
 }

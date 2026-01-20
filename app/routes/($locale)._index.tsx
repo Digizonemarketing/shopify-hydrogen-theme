@@ -181,7 +181,20 @@ function BestSellers({products}: {products: Promise<any>}) {
         <h2>Best Sellers</h2>
         <p>Our most-loved tech this season</p>
       </div>
-      <Suspense fallback={<div className="loading-spinner">Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="skeleton-grid" aria-hidden>
+            {Array.from({length: 8}).map((_, i) => (
+              <div className="skeleton-card" key={`best-skel-${i}`}>
+                <div className="skeleton-image" />
+                <div className="skeleton-line lg" />
+                <div style={{height: 8}} />
+                <div className="skeleton-line md" />
+              </div>
+            ))}
+          </div>
+        }
+      >
         <Await resolve={products}>
           {(response) => (
             <div className="best-sellers-grid">
@@ -210,7 +223,20 @@ function NewArrivals({products}: {products: Promise<any>}) {
         <h2>New Arrivals</h2>
         <p>Fresh drops, modern essentials</p>
       </div>
-      <Suspense fallback={<div className="loading-spinner">Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="skeleton-grid" aria-hidden>
+            {Array.from({length: 6}).map((_, i) => (
+              <div className="skeleton-card" key={`new-skel-${i}`}>
+                <div className="skeleton-image" />
+                <div className="skeleton-line lg" />
+                <div style={{height: 8}} />
+                <div className="skeleton-line sm" />
+              </div>
+            ))}
+          </div>
+        }
+      >
         <Await resolve={products}>
           {(response) => (
             <div className="new-arrivals-scroll">

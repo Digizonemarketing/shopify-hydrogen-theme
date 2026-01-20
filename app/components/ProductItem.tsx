@@ -9,6 +9,7 @@ import type {
   RecommendedProductFragment,
 } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
+ 
 import { AddToCartButton } from './AddToCartButton';
 
 type ProductWithOptionalPricing =
@@ -220,100 +221,105 @@ export const ProductItem = memo(function ProductItem({
     selectedVariantId ??
     product.handle;
 
+  const isAvailable =
+    (selectedVariant as any)?.availableForSale !== false && selectedVariantId != null;
+
   return (
-    <div className="group relative rounded-xl p-3.5 sm:p-4 border border-white/10 bg-white/5 shadow-luxury transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10 hover:shadow-luxury-lg">
+    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 via-white/10 to-white/5 p-4 sm:p-5 shadow-luxury transition-all duration-500 hover:-translate-y-2 hover:border-brand-neon/50 hover:shadow-glow-blue/70">
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden>
+        <div className="absolute -inset-20 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.25),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.25),transparent_38%)]" />
+      </div>
+
       <Link
         to={variantUrl}
         prefetch="intent"
         aria-label={product.title ? `View ${product.title}` : 'View product'}
-        className="block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        className="block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
       >
-        <div className="relative rounded-xl aspect-square mb-3 overflow-hidden bg-black/20 ring-1 ring-white/10 transition-colors duration-300 group-hover:ring-white/20">
-          <div className="absolute left-2.5 top-11 z-[1] flex flex-col gap-2">
+        <div
+          className="relative mb-4 overflow-hidden rounded-xl bg-gradient-to-br from-[#0f172a] via-[#0b1220] to-[#0f172a] ring-1 ring-white/10 transition-all duration-500 group-hover:ring-brand-neon/50"
+          style={{width: '100%', maxWidth: 260, aspectRatio: '1 / 1'}}
+        >
+          <div className="absolute inset-x-3 top-3 z-[2] flex items-center justify-between gap-2">
             {subtitle ? (
-              <span className="inline-flex w-fit items-center rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-white/85 ring-1 ring-white/20 backdrop-blur">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-white/85 ring-1 ring-white/25 backdrop-blur">
                 {subtitle}
               </span>
-            ) : null}
-          </div>
-
-          <div className="h-full w-full flex items-center justify-center">
-            {displayImage ? (
-              <Image
-                key={String(imageKey)}
-                data={displayImage}
-                alt={
-                  (displayImage as any)?.altText ||
-                  featuredImage?.altText ||
-                  product.title ||
-                  'Product image'
-                }
-                loading={loading}
-                className="h-100 w-100 object-contain transition-transform duration-500 group-hover:scale-[1.02] animate-fade-in"
-                sizes="(min-width: 64em) 320px, (min-width: 48em) 33vw, 50vw"
-              />
-            ) : (
-              <div aria-hidden className="h-full w-full rounded-xl bg-white/10" />
-            )}
-          </div>
-
-          <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          </div>
-        </div>
-
-        {ratingValue != null || (hasDiscount && salePercent != null) ? (
-          <div className="mb-2 flex items-center gap-2">
-            {ratingValue != null ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-black/35 px-2.5 py-1 text-[11px] font-semibold text-white/85 ring-1 ring-white/15 backdrop-blur">
-                <Star size={14} className="text-brand-neon" fill="currentColor" />
-                {ratingValue.toFixed(1)}
-              </span>
-            ) : null}
+            ) : <span />}
             {hasDiscount && salePercent != null ? (
               <span className="inline-flex items-center rounded-full bg-brand-neon px-3 py-1 text-[11px] font-extrabold tracking-wide text-slate-950 shadow-glow-blue">
                 {salePercent}% OFF
               </span>
             ) : null}
           </div>
-        ) : null}
 
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
+          {displayImage ? (
+            <Image
+              key={String(imageKey)}
+              data={displayImage}
+              alt={
+                (displayImage as any)?.altText ||
+                featuredImage?.altText ||
+                product.title ||
+                'Product image'
+              }
+              loading={loading}
+              width={520}
+              height={520}
+              sizes="(min-width: 768px) 260px, 92vw"
+              aspectRatio="1/1"
+              crop="center"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,.68,0,1)] group-hover:scale-[1.05]"
+              decoding="async"
+              draggable={false}
+            />
+          ) : (
+            <div aria-hidden className="absolute inset-0 bg-white/10" />
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" aria-hidden />
+
+          <div className="absolute inset-x-3 bottom-3 z-[2] flex items-center justify-between gap-2 text-[11px] font-semibold text-white/85">
             {productCode ? (
-              <p className="text-[11px] text-white/50 mb-1">{productCode}</p>
+              <span className="inline-flex items-center gap-1 rounded-full bg-black/40 px-3 py-1 ring-1 ring-white/15 backdrop-blur">
+                {productCode}
+              </span>
+            ) : <span />}
+            {ratingValue != null ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 ring-1 ring-white/15 backdrop-blur">
+                <Star size={14} className="text-brand-neon" fill="currentColor" />
+                {ratingValue.toFixed(1)}
+              </span>
             ) : null}
-            <h3 className="font-semibold text-[15px] sm:text-base text-white line-clamp-2 leading-snug">
-              {product.title}
-            </h3>
           </div>
         </div>
 
-        <div className="mt-3">
-          <div className="flex items-baseline gap-2">
+        <div className="space-y-2">
+          <h3 className="text-[18px] font-bold leading-snug text-white line-clamp-2">
+            {product.title}
+          </h3>
+          <div className="flex flex-wrap items-baseline gap-2 text-white">
             {displayPrice ? (
               isPriceRange && !selectedVariantId ? (
-                <span className="inline-flex items-baseline gap-2">
-                  <span className="text-[11px] font-semibold text-white/60">
+                <span className="inline-flex items-baseline gap-2 text-[16px] font-semibold">
+                  <span className="text-[11px] uppercase tracking-[0.08em] text-white/60">
                     From
                   </span>
-                  <span className="text-lg font-extrabold text-white tracking-tight">
+                  <span className="text-[22px] font-extrabold tracking-tight">
                     <Money data={minPrice!} />
                   </span>
                 </span>
               ) : (
-                <span className="text-lg font-extrabold text-white tracking-tight">
+                <span className="text-[22px] font-extrabold tracking-tight">
                   <Money data={displayPrice} />
                 </span>
               )
             ) : (
-              <span className="text-sm font-semibold text-white/60">
-                Price unavailable
-              </span>
+              <span className="text-sm font-semibold text-white/60">Price unavailable</span>
             )}
 
             {hasDiscount && displayCompareAt ? (
-              <span className="text-xs text-white/45 line-through">
+              <span className="text-[12px] text-white/50 line-through">
                 <Money data={displayCompareAt} />
               </span>
             ) : null}
@@ -322,8 +328,14 @@ export const ProductItem = memo(function ProductItem({
       </Link>
 
       {showVariantPicker ? (
-        <div className="mt-3">
-          <div className="flex items-center gap-2 overflow-x-auto flex-wrap whitespace-nowrap pb-1">
+        <div className="mt-3.5 rounded-xl border border-white/10 bg-white/5/30 p-3">
+          <div className="mb-2 flex items-center justify-between gap-2 text-[12px] font-semibold text-white/70">
+            <span>{hasColorVariants ? 'Colors' : 'Variants'}</span>
+            {hiddenCount > 0 ? (
+              <span className="text-white/50">{variants.length} options</span>
+            ) : null}
+          </div>
+          <div className="flex flex-wrap items-center gap-2.5">
             {visibleVariants.map((v: any) => {
               const active = v?.id === selectedVariantId;
               const colorValue = hasColorVariants
@@ -354,11 +366,11 @@ export const ProductItem = memo(function ProductItem({
                   className={
                     hasColorVariants
                       ? active
-                        ? 'h-6 w-6 rounded-none overflow-hidden ring-2 ring-brand-neon shadow-glow-blue'
-                        : 'h-6 w-6 rounded-none overflow-hidden ring-1 ring-white/15 hover:ring-white/25'
+                        ? 'h-8 w-8 rounded-full overflow-hidden ring-2 ring-brand-neon shadow-glow-blue'
+                        : 'h-8 w-8 rounded-full overflow-hidden ring-1 ring-white/20 hover:ring-white/35'
                       : active
-                        ? 'h-9 rounded-full bg-brand-neon text-slate-950 px-3 text-xs font-extrabold ring-1 ring-brand-neon shadow-glow-blue'
-                        : 'h-9 rounded-full bg-white/5 text-white/75 px-3 text-xs font-semibold ring-1 ring-white/10 hover:bg-white/10'
+                        ? 'min-w-[46px] rounded-full bg-brand-neon text-slate-950 px-3 py-2 text-[12px] font-extrabold ring-1 ring-brand-neon shadow-glow-blue'
+                        : 'min-w-[46px] rounded-full bg-white/5 text-white/80 px-3 py-2 text-[12px] font-semibold ring-1 ring-white/15 hover:bg-white/10'
                   }
                   aria-pressed={active}
                   aria-label={
@@ -392,8 +404,8 @@ export const ProductItem = memo(function ProductItem({
                 onClick={() => setShowAllVariants(true)}
                 className={
                   hasColorVariants
-                    ? 'h-6 min-w-6 rounded-none bg-black/20 text-white/80 px-1.5 text-[10px] font-extrabold ring-1 ring-white/15 hover:bg-white/10'
-                    : 'h-9 rounded-full bg-black/20 text-white/75 px-3 text-xs font-semibold ring-1 ring-white/10 hover:bg-white/10'
+                    ? 'h-8 min-w-8 rounded-full bg-black/30 px-2 text-[12px] font-bold text-white/85 ring-1 ring-white/20 hover:bg-white/10'
+                    : 'min-w-[46px] rounded-full bg-black/25 px-3 py-2 text-[12px] font-semibold text-white/80 ring-1 ring-white/15 hover:bg-white/10'
                 }
                 aria-label={`View ${hiddenCount} more variants`}
               >
@@ -407,8 +419,8 @@ export const ProductItem = memo(function ProductItem({
                 onClick={() => setShowAllVariants(false)}
                 className={
                   hasColorVariants
-                    ? 'h-6 min-w-6 rounded-none bg-black/20 text-white/80 px-1.5 text-[10px] font-extrabold ring-1 ring-white/15 hover:bg-white/10'
-                    : 'h-9 rounded-full bg-black/20 text-white/75 px-3 text-xs font-semibold ring-1 ring-white/10 hover:bg-white/10'
+                    ? 'h-8 min-w-8 rounded-full bg-black/30 px-2 text-[12px] font-bold text-white/85 ring-1 ring-white/20 hover:bg-white/10'
+                    : 'min-w-[46px] rounded-full bg-black/25 px-3 py-2 text-[12px] font-semibold text-white/80 ring-1 ring-white/15 hover:bg-white/10'
                 }
                 aria-label="Show fewer variants"
               >
@@ -419,57 +431,70 @@ export const ProductItem = memo(function ProductItem({
         </div>
       ) : null}
 
-      <div className="mt-4">
-        <div className="flex items-center gap-2">
-          {variantId ? (
-            <AddToCartButton
-              lines={[{ merchandiseId: variantId, quantity: 1 }]}
-              className="group flex-1 h-11 bg-brand-neon hover:bg-brand-neon-light text-slate-950 font-extrabold px-4 rounded-xl inline-flex items-center justify-center gap-2 shadow-glow-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:translate-y-[1px]"
-              ariaLabel={product.title ? `Add ${product.title} to cart` : 'Add to cart'}
-            >
-              <span>Add Cart</span>
-              <span className="hidden sm:inline-flex opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                <ShoppingBag size={18} />
-              </span>
-            </AddToCartButton>
-          ) : (
-            <Link
-              to={variantUrl}
-              prefetch="intent"
-              className="group flex-1 h-11 bg-brand-neon hover:bg-brand-neon-light text-slate-950 font-extrabold px-4 rounded-xl inline-flex items-center justify-center gap-2 shadow-glow-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:translate-y-[1px]"
-              aria-label={product.title ? `View ${product.title}` : 'View product'}
-            >
-              <span>View</span>
-              <span className="hidden sm:inline-flex opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                <ShoppingBag size={18} />
-              </span>
-            </Link>
-          )}
+      <div className="mt-4 flex flex-col gap-2  sm:flex-row sm:items-center sm:gap-3">
+        {variantId ? (
+          <AddToCartButton
+            lines={[{merchandiseId: variantId, quantity: 1}]}
+            disabled={!isAvailable}
+            className={`group flex-1 h-12 px-4 rounded-xl inline-flex items-center justify-center gap-2 font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:translate-y-[1px] shadow-glow-blue ${
+              isAvailable
+                ? 'bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-gold-light)] ring-1 ring-white/15 text-slate-950 hover:brightness-105'
+                : 'cursor-not-allowed bg-black/40 backdrop-blur ring-1 ring-white/15 text-white/50'
+            }`}
+            ariaLabel={
+              product.title
+                ? isAvailable
+                  ? `Pick ${product.title}`
+                  : `${product.title} is sold out`
+                : isAvailable
+                  ? 'Pick'
+                  : 'Sold out'
+            }
+          >
+            <span className="text-sm text-white font-semibold">
+              {isAvailable ? 'Pick' : 'Sold out'}
+            </span>
+            <span className={`hidden sm:inline-flex text-white transition-all duration-200 ${isAvailable ? 'opacity-0 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-x-1' : 'opacity-40'}`}>
+              <ShoppingBag size={18} />
+            </span>
+          </AddToCartButton>
+        ) : (
+          <Link
+            to={variantUrl}
+            prefetch="intent"
+            className="group flex-1 h-12 bg-brand-neon hover:bg-brand-neon-light text-slate-950 font-bold px-4 rounded-xl inline-flex items-center justify-center gap-2 shadow-glow-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black active:translate-y-[1px] transition-all duration-200"
+            aria-label={product.title ? `View ${product.title}` : 'View product'}
+          >
+            <span className="text-sm font-semibold">View product</span>
+            <span className="hidden sm:inline-flex opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+              <ShoppingBag size={18} />
+            </span>
+          </Link>
+        )}
 
+        <div className="flex items-center gap-2">
           <button
             type="button"
             disabled
-            className="h-8 w-8 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/10 opacity-50 cursor-not-allowed"
+            className="h-12 w-12 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/15 opacity-60 cursor-not-allowed"
             aria-label="Quick view (coming soon)"
             title="Quick view (coming soon)"
           >
             <Eye size={18} />
           </button>
-
           <button
             type="button"
             disabled
-            className="h-8 w-8 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/10 opacity-50 cursor-not-allowed"
+            className="h-12 w-12 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/15 opacity-60 cursor-not-allowed"
             aria-label="Wishlist (coming soon)"
             title="Wishlist (coming soon)"
           >
             <Heart size={18} />
           </button>
-
           <button
             type="button"
             disabled
-            className="h-8 w-8 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/10 opacity-50 cursor-not-allowed"
+            className="h-12 w-12 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/15 opacity-60 cursor-not-allowed"
             aria-label="Compare (coming soon)"
             title="Compare (coming soon)"
           >
