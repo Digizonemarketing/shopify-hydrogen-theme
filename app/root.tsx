@@ -11,7 +11,6 @@ import {
   useRouteLoaderData,
 } from 'react-router';
 import type {Route} from './+types/root';
-import favicon from '~/assets/favicon.svg';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
@@ -76,7 +75,8 @@ export function links() {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Audiowide&family=Nova+Square&display=swap',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+    {rel: 'icon', type: 'image/jpeg', href: 'https://cdn.shopify.com/s/files/1/0732/3182/7102/files/Untitled_design.jpg?v=1763066382'},
+    {rel: 'apple-touch-icon', type: 'image/jpeg', href: 'https://cdn.shopify.com/s/files/1/0732/3182/7102/files/Untitled_design.jpg?v=1763066382'},
   ];
 }
 

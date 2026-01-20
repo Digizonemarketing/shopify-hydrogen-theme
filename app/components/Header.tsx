@@ -49,14 +49,15 @@ export function Header({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo & Brand */}
-          <NavLink prefetch="intent" to="/" className="group flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-lg">
-            <div className="flex flex-col justify-center">
-              <h1 className="text-xl font-bold tracking-tight text-white group-hover:text-brand-neon transition-colors duration-200">
-                {shop?.name || 'AODOUR'}
-              </h1>
-              <span className="text-xs uppercase tracking-widest text-white/60 group-hover:text-brand-neon/80 transition-colors duration-200">
-                {shop?.description?.split('\n')[0] || 'LUXURY BAGS'}
-              </span>
+          <NavLink prefetch="intent" to="/" className="group/logo no-underline">
+            <div className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/5 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black">
+              {/* Logo Image */}
+              <img 
+                src="https://cdn.shopify.com/s/files/1/0732/3182/7102/files/Genze_Logo.png?v=1760642974" 
+                alt="Genze Logo" 
+                className="h-8 w-40 object-contain group-hover/logo:brightness-110 transition-all duration-200"
+              />
+             
             </div>
             
             {/* SEO Structured Data */}
@@ -64,9 +65,10 @@ export function Header({
               {JSON.stringify({
                 '@context': 'https://schema.org/',
                 '@type': 'Organization',
-                'name': shop?.name || 'AODOUR',
-                'url': shop?.primaryDomain?.url,
-                'description': shop?.description,
+                name: 'Genze',
+                url: shop?.primaryDomain?.url,
+                description: 'Premium Fashion and Luxury Goods',
+                logo: 'https://genze.pk/cdn/shop/files/Genze_Logo_fcb874a5-e967-4bcd-8c0f-8033977b09b8.svg?v=1760551111&width=130',
               })}
             </script>
           </NavLink>

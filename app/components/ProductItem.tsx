@@ -92,6 +92,9 @@ export const ProductItem = memo(function ProductItem({
 
   const [showAllVariants, setShowAllVariants] = useState(false);
 
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isCompared, setIsCompared] = useState(false);
+
   const variants = useMemo(() => {
     const anyProduct = product as any;
     const nodes = anyProduct?.variants?.nodes;
@@ -475,30 +478,65 @@ export const ProductItem = memo(function ProductItem({
         <div className="flex items-center gap-2">
           <button
             type="button"
-            disabled
-            className="h-12 w-12 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/15 opacity-60 cursor-not-allowed"
-            aria-label="Quick view (coming soon)"
-            title="Quick view (coming soon)"
+            onClick={() => {
+              // Quick view - Open product link in new tab or modal
+              window.open(variantUrl, '_self');
+            }}
+            className="group/btn h-12 w-12 inline-flex items-center justify-center rounded-xl bg-gradient-to-br from-white/10 to-white/5 text-white/80 ring-1 ring-white/20 hover:ring-brand-neon/50 hover:from-white/20 hover:to-white/10 hover:text-brand-neon transition-all duration-200 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            aria-label="Quick view"
+            title="Quick view"
           >
-            <Eye size={18} />
+            <Eye size={18} className="group-hover/btn:scale-110 transition-transform duration-200" />
           </button>
           <button
             type="button"
-            disabled
-            className="h-12 w-12 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/15 opacity-60 cursor-not-allowed"
-            aria-label="Wishlist (coming soon)"
-            title="Wishlist (coming soon)"
+            onClick={() => {
+              // Toggle wishlist
+              setIsWishlisted(!isWishlisted);
+              // Save to localStorage
+              const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+              if (!isWishlisted) {
+                wishlist.push(product.id);
+              } else {
+                const index = wishlist.indexOf(product.id);
+                if (index > -1) wishlist.splice(index, 1);
+              }
+              localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            }}
+            className={`group/btn h-12 w-12 inline-flex items-center justify-center rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
+              isWishlisted
+                ? 'bg-gradient-to-br from-red-500/40 to-red-400/20 ring-1 ring-red-500/50 text-red-400 hover:scale-110'
+                : 'bg-gradient-to-br from-white/10 to-white/5 text-white/80 ring-1 ring-white/20 hover:ring-brand-neon/50 hover:from-white/20 hover:to-white/10 hover:text-brand-neon hover:scale-110'
+            }`}
+            aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+            title={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           >
-            <Heart size={18} />
+            <Heart size={18} className={`group-hover/btn:scale-110 transition-transform duration-200 ${isWishlisted ? 'fill-current' : ''}`} />
           </button>
           <button
             type="button"
-            disabled
-            className="h-12 w-12 inline-flex items-center justify-center rounded-xl bg-white/5 text-white/60 ring-1 ring-white/15 opacity-60 cursor-not-allowed"
-            aria-label="Compare (coming soon)"
-            title="Compare (coming soon)"
+            onClick={() => {
+              // Toggle compare
+              setIsCompared(!isCompared);
+              // Save to localStorage
+              const compare = JSON.parse(localStorage.getItem('compare') || '[]');
+              if (!isCompared) {
+                compare.push(product.id);
+              } else {
+                const index = compare.indexOf(product.id);
+                if (index > -1) compare.splice(index, 1);
+              }
+              localStorage.setItem('compare', JSON.stringify(compare));
+            }}
+            className={`group/btn h-12 w-12 inline-flex items-center justify-center rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
+              isCompared
+                ? 'bg-gradient-to-br from-blue-500/40 to-blue-400/20 ring-1 ring-blue-500/50 text-blue-400 hover:scale-110'
+                : 'bg-gradient-to-br from-white/10 to-white/5 text-white/80 ring-1 ring-white/20 hover:ring-brand-neon/50 hover:from-white/20 hover:to-white/10 hover:text-brand-neon hover:scale-110'
+            }`}
+            aria-label={isCompared ? 'Remove from compare' : 'Add to compare'}
+            title={isCompared ? 'Remove from compare' : 'Add to compare'}
           >
-            <GitCompareArrows size={18} />
+            <GitCompareArrows size={18} className="group-hover/btn:scale-110 transition-transform duration-200" />
           </button>
         </div>
       </div>
