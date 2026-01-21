@@ -5,17 +5,17 @@ export function BrandStory() {
         <div className="brand-story-image">
           <img
             src="https://cdn.shopify.com/s/files/1/0551/4566/0472/files/brand-story.jpg"
-            alt="AODOUR craftsmanship"
+            alt="Genze craftsmanship"
             loading="lazy"
           />
         </div>
         <div className="brand-story-text">
-          <h2>The AODOUR Story</h2>
+          <h2>The Genze Story</h2>
           <p className="brand-story-lead">
             Where craftsmanship meets timeless elegance
           </p>
           <p>
-            Since our founding, AODOUR has been dedicated to creating bags that
+            Since our founding, Genze has been dedicated to creating bags that
             transcend trends and stand the test of time. Each piece in our
             collection is thoughtfully designed and expertly crafted using
             premium materials sourced from around the world.
@@ -27,8 +27,8 @@ export function BrandStory() {
             production methods.
           </p>
           <p>
-            Every AODOUR bag tells a story of dedication, artistry, and the
-            pursuit of perfection. When you carry an AODOUR bag, you&apos;re not just
+            Every Genze bag tells a story of dedication, artistry, and the
+            pursuit of perfection. When you carry an Genze bag, you&apos;re not just
             carrying an accessory—you&apos;re carrying a piece of art.
           </p>
           <a href="/pages/about-us" className="brand-story-link">

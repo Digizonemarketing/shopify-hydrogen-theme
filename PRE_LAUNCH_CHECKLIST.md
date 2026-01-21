@@ -1,9 +1,9 @@
-# AODOUR Store - Pre-Launch Checklist
+# Genze Store - Pre-Launch Checklist
 
 ## ✅ Implementation Complete
 
 ### Core Features Implemented
-- [x] Branded header with AODOUR logo and bags navigation
+- [x] Branded header with Genze logo and bags navigation
 - [x] Redesigned homepage with hero section
 - [x] Featured categories section (Women's, Men's, Travel, Accessories)
 - [x] Bestsellers product grid
@@ -96,7 +96,7 @@
 - [ ] Test email notifications
 
 ### Domain & DNS
-- [ ] Purchase domain (aodour.pk or other)
+- [ ] Purchase domain (Genze.pk or other)
 - [ ] Configure DNS settings
 - [ ] Set up SSL/TLS
 - [ ] Test domain routing
@@ -304,4 +304,4 @@ Just follow the pre-launch checklist above and you'll have a professional bags s
 
 ---
 
-**Good luck with AODOUR! We're excited for your launch! 🛍️**
+**Good luck with Genze! We're excited for your launch! 🛍️**

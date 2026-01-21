@@ -16,10 +16,10 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
-    {title: `AODOUR | ${data?.product.title ?? ''} - Premium Luxury Bags`},
+    {title: `Genze | ${data?.product.title ?? ''} - Premium Luxury Bags`},
     {
       name: 'description',
-      content: `${data?.product.title ?? 'Product'} - ${data?.product.description ?? 'Premium quality bag from AODOUR.PK'}`,
+      content: `${data?.product.title ?? 'Product'} - ${data?.product.description ?? 'Premium quality bag from Genze.PK'}`,
     },
     {
       rel: 'canonical',

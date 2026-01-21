@@ -1,4 +1,4 @@
-# AODOUR Bags Store - Quick Reference
+# Genze Bags Store - Quick Reference
 
 ## 🚀 Quick Start
 ```bash
@@ -51,9 +51,9 @@ Desktop: > 768px
 **File**: `app/components/Header.tsx` (line ~25)
 ```tsx
 // Replace this:
-<span className="header-logo-main">AODOUR</span>
+<span className="header-logo-main">Genze</span>
 // With image:
-<img src="/logo.png" alt="AODOUR" height="40" />
+<img src="/logo.png" alt="Genze" height="40" />
 ```
 
 ### Update Colors
@@ -219,4 +219,4 @@ npm run dev # Auto-tries 3001, 3002, etc.
 **Status**: ✅ Ready to Customize  
 **Launch**: Ready Now  
 
-🎉 **Good luck with AODOUR!** 🎉
+🎉 **Good luck with Genze!** 🎉

@@ -19,7 +19,7 @@ The header has been completely rebuilt with a dynamic SEO-optimized logo and a p
 #### How It Works:
 ```tsx
 <h1 className="header-logo-main">
-  {shop?.name || 'AODOUR'}
+  {shop?.name || 'Genze'}
 </h1>
 <span className="header-logo-tagline">
   {shop?.description?.split('\n')[0] || 'LUXURY BAGS'}

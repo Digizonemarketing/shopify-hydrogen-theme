@@ -1,4 +1,4 @@
-# AODOUR Bags Store - Setup & Customization Guide
+# Genze Bags Store - Setup & Customization Guide
 
 ## Quick Start
 
@@ -20,7 +20,7 @@ The store will be available at: **http://localhost:3001/**
 ```
 app/
 ├── components/              # Reusable UI components
-│   ├── Header.tsx          # Navigation header (customized for AODOUR)
+│   ├── Header.tsx          # Navigation header (customized for Genze)
 │   ├── Footer.tsx          # Footer with rich content
 │   ├── ProductItem.tsx     # Product card with badges
 │   ├── ProductGallery.tsx  # NEW: Multi-image gallery
@@ -50,7 +50,7 @@ app/
 ```tsx
 // Replace the text logo with an image
 <NavLink prefetch="intent" to="/" className="header-logo" end>
-  <img src="/logo.png" alt="AODOUR" className="header-logo-image" />
+  <img src="/logo.png" alt="Genze" className="header-logo-image" />
 </NavLink>
 ```
 
@@ -184,10 +184,10 @@ Edit `app/routes/($locale).products.$handle.tsx`:
 ```tsx
 export const meta: Route.MetaFunction = ({data}) => {
   return [
-    {title: `AODOUR | ${data?.product.title ?? ''} - Premium Bags`},
+    {title: `Genze | ${data?.product.title ?? ''} - Premium Bags`},
     {
       name: 'description',
-      content: `Shop ${data?.product.title ?? ''} at AODOUR. Premium quality bags...`
+      content: `Shop ${data?.product.title ?? ''} at Genze. Premium quality bags...`
     }
   ];
 };
@@ -199,10 +199,10 @@ Edit `app/routes/($locale)._index.tsx`:
 ```tsx
 export const meta: Route.MetaFunction = () => {
   return [
-    {title: 'AODOUR - Premium Luxury Bags | Shop Now'},
+    {title: 'Genze - Premium Luxury Bags | Shop Now'},
     {
       name: 'description',
-      content: 'Discover premium quality luxury bags at AODOUR.PK. Shop authentic handbags, backpacks, travel bags, and accessories.'
+      content: 'Discover premium quality luxury bags at Genze.PK. Shop authentic handbags, backpacks, travel bags, and accessories.'
     }
   ];
 };
@@ -344,11 +344,11 @@ For Hydrogen-specific issues:
 - Visit Shopify GitHub discussions
 - Contact Shopify Support
 
-For AODOUR customizations:
+For Genze customizations:
 - Review implementation summary for file locations
 - Check component prop types
 - Use TypeScript for type safety
 
 ---
 
-**You're all set to launch AODOUR! Happy selling! 🎉**
+**You're all set to launch Genze! Happy selling! 🎉**

@@ -1,4 +1,4 @@
-# AODOUR Bags Store - Design & Feature Guide
+# Genze Bags Store - Design & Feature Guide
 
 ## Color Scheme
 Your luxury brand uses a sophisticated color palette:
@@ -14,12 +14,12 @@ Your luxury brand uses a sophisticated color palette:
 
 ### Header Navigation
 ```
-AODOUR (Logo) | Women's Bags | Men's Bags | Travel Bags | Accessories | Sale | [Search] [Account] [Cart]
+Genze (Logo) | Women's Bags | Men's Bags | Travel Bags | Accessories | Sale | [Search] [Account] [Cart]
 ```
 
 ### Footer Navigation
 ```
-About AODOUR          | Shop                    | Customer Care           | About
+About Genze          | Shop                    | Customer Care           | About
 - Our Story          | - Women's Bags         | - Contact Us           | - Our Story
 - Quality Promise    | - Men's Bags           | - Shipping Info        | - Quality Promise
 - Careers            | - Travel Bags          | - Returns              | - Blog
@@ -28,7 +28,7 @@ About AODOUR          | Shop                    | Customer Care           | Abou
 
 [Social Icons: Facebook, Instagram, Twitter]
 
-© 2025 AODOUR.PK | [Trust Badges: Secure, Authentic, Free Shipping] | [Payment: VISA, MC, COD]
+© 2025 Genze.PK | [Trust Badges: Secure, Authentic, Free Shipping] | [Payment: VISA, MC, COD]
 ```
 
 ## Page Layouts
@@ -69,7 +69,7 @@ About AODOUR          | Shop                    | Customer Care           | Abou
 └─────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────┐
-│  WHY SHOP AODOUR                        │
+│  WHY SHOP Genze                        │
 │  ✓ Authentic  🚚 Free Shipping          │
 │  ↻ Easy Returns  🔒 Secure Payment      │
 └─────────────────────────────────────────┘
@@ -231,7 +231,7 @@ XL: 3rem    (48px)
 1. **Update Hero Image**: Replace placeholder with actual lifestyle product image
 2. **Add Real Products**: Connect to Shopify catalog
 3. **Customize Collections**: Create collections for each category
-4. **Update Social Links**: Add actual AODOUR social media URLs
+4. **Update Social Links**: Add actual Genze social media URLs
 5. **Add Logo Image**: Replace text logo with actual brand logo
 6. **Implement Filters**: Add price, color, material filters to collections
 7. **Add Size Guide**: Create size guide modal

@@ -9,38 +9,38 @@ const posts: InstagramPost[] = [
   {
     id: 1,
     image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/instagram-1.jpg',
-    link: 'https://instagram.com/aodour.pk',
-    alt: 'AODOUR leather handbag',
+    link: 'https://instagram.com/Genze.pk',
+    alt: 'Genze leather handbag',
   },
   {
     id: 2,
     image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/instagram-2.jpg',
-    link: 'https://instagram.com/aodour.pk',
-    alt: 'AODOUR tote bag',
+    link: 'https://instagram.com/Genze.pk',
+    alt: 'Genze tote bag',
   },
   {
     id: 3,
     image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/instagram-3.jpg',
-    link: 'https://instagram.com/aodour.pk',
-    alt: 'AODOUR crossbody bag',
+    link: 'https://instagram.com/Genze.pk',
+    alt: 'Genze crossbody bag',
   },
   {
     id: 4,
     image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/instagram-4.jpg',
-    link: 'https://instagram.com/aodour.pk',
-    alt: 'AODOUR clutch bag',
+    link: 'https://instagram.com/Genze.pk',
+    alt: 'Genze clutch bag',
   },
   {
     id: 5,
     image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/instagram-5.jpg',
-    link: 'https://instagram.com/aodour.pk',
-    alt: 'AODOUR backpack',
+    link: 'https://instagram.com/Genze.pk',
+    alt: 'Genze backpack',
   },
   {
     id: 6,
     image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/instagram-6.jpg',
-    link: 'https://instagram.com/aodour.pk',
-    alt: 'AODOUR travel bag',
+    link: 'https://instagram.com/Genze.pk',
+    alt: 'Genze travel bag',
   },
 ];
 
@@ -48,7 +48,7 @@ export function InstagramFeed() {
   return (
     <div className="instagram-feed">
       <div className="instagram-header">
-        <h2>Follow @aodour.pk</h2>
+        <h2>Follow @Genze.pk</h2>
         <p>Join our community and get inspired</p>
       </div>
       <div className="instagram-grid">

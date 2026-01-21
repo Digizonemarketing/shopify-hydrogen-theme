@@ -1,7 +1,7 @@
-# AODOUR.PK - Luxury Bags Store Implementation Summary
+# Genze.PK - Luxury Bags Store Implementation Summary
 
 ## Overview
-Successfully transformed the Shopify Hydrogen template into a premium luxury bags store (aodour.pk) with comprehensive branding, enhanced UX, and modern design patterns.
+Successfully transformed the Shopify Hydrogen template into a premium luxury bags store (Genze.pk) with comprehensive branding, enhanced UX, and modern design patterns.
 
 ## Implementation Completed
 
@@ -9,7 +9,7 @@ Successfully transformed the Shopify Hydrogen template into a premium luxury bag
 **Files Modified:** `app/styles/app.css`
 
 **Changes Made:**
-- Created comprehensive CSS variable system with aodour.pk brand colors:
+- Created comprehensive CSS variable system with Genze.pk brand colors:
   - Primary: #2c3e50 (Dark blue-grey)
   - Secondary: #d4af37 (Gold accent)
   - Accent: #c19a6b (Bronze)
@@ -22,7 +22,7 @@ Successfully transformed the Shopify Hydrogen template into a premium luxury bag
 **Files Modified:** `app/components/Header.tsx`, `app/styles/app.css`
 
 **Changes Made:**
-- Replaced generic shop name with branded "AODOUR" logo with "LUXURY BAGS" tagline
+- Replaced generic shop name with branded "Genze" logo with "LUXURY BAGS" tagline
 - Updated header height to 80px for better proportions
 - Added sticky positioning with subtle shadow
 - Updated fallback menu with bags-specific categories:
@@ -176,7 +176,7 @@ Error:          #e74c3c
 ### Component Structure
 ```
 Header
-├── Logo (AODOUR)
+├── Logo (Genze)
 ├── Desktop Menu (Categories)
 ├── Mobile Toggle
 ├── Search
@@ -301,4 +301,4 @@ npm run build
 
 **Status:** ✅ Core Implementation Complete
 **Date:** January 2026
-**Store Domain:** aodour.pk
+**Store Domain:** Genze.pk

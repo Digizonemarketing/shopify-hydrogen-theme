@@ -83,10 +83,10 @@ Product Component Renders
 
 #### 1. **Product Detail Page** (`app/routes/($locale).products.$handle.tsx`)
 ```tsx
-// Meta tags updated for AODOUR branding
+// Meta tags updated for Genze branding
 export const meta: Route.MetaFunction = ({data}) => {
   return [
-    {title: `AODOUR | ${data?.product.title ?? ''} - Premium Luxury Bags`},
+    {title: `Genze | ${data?.product.title ?? ''} - Premium Luxury Bags`},
     {name: 'description', content: 'Product description...'},
     {rel: 'canonical', href: `/products/${data?.product.handle}`}
   ];
@@ -326,7 +326,7 @@ const PRODUCT_QUERY = {
 
 1. **Brand/Vendor Display**
    ```
-   Brand: AODOUR
+   Brand: Genze
    ```
 
 2. **Availability Badge**

@@ -8,10 +8,10 @@ import type {ProductItemFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
-    {title: `AODOUR | ${data?.collection.title ?? 'Collection'} - Luxury Bags`},
+    {title: `Genze | ${data?.collection.title ?? 'Collection'} - Luxury Bags`},
     {
       name: 'description',
-      content: `${data?.collection.title ?? 'Collection'} - ${data?.collection.description || 'Browse our collection of premium quality bags at AODOUR.PK'}`,
+      content: `${data?.collection.title ?? 'Collection'} - ${data?.collection.description || 'Browse our collection of premium quality bags at Genze.PK'}`,
     },
   ];
 };

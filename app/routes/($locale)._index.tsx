@@ -291,7 +291,7 @@ function CustomerTestimonials() {
       name: 'Sarah Ahmed',
       rating: 5,
       review:
-        'Absolutely love my AODOUR handbag! The quality is exceptional and it goes with everything in my wardrobe. Best purchase this year!',
+        'Absolutely love my Genze handbag! The quality is exceptional and it goes with everything in my wardrobe. Best purchase this year!',
       location: 'Karachi, Pakistan',
       image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/testimonial-1.jpg',
     },
@@ -299,7 +299,7 @@ function CustomerTestimonials() {
       name: 'Ali Hassan',
       rating: 5,
       review:
-        'The leather briefcase is exactly what I needed for work. Professional, durable, and stylish. Highly recommend AODOUR!',
+        'The leather briefcase is exactly what I needed for work. Professional, durable, and stylish. Highly recommend Genze!',
       location: 'Lahore, Pakistan',
       image: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/files/testimonial-2.jpg',
     },

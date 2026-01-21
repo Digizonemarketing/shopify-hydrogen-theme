@@ -23,14 +23,14 @@ export function Footer({
               {/* Top area: Brand + Newsletter */}
               <div className="footer-top">
                 <div className="footer-section footer-brand">
-                  <div className="footer-brand-name">AODOUR</div>
+                  <div className="footer-brand-name">Genze</div>
                   <div className="footer-brand-tagline">LUXURY BAGS</div>
                   <p className="footer-description">
                     Premium bags crafted with precision for everyday elegance. Built to last, designed to stand out.
                   </p>
                   <div className="footer-social">
                     <a
-                      href="https://facebook.com/aodour.pk"
+                      href="https://facebook.com/Genze.pk"
                       className="footer-social-link"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -39,7 +39,7 @@ export function Footer({
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.563 9.874v-6.987H7.897V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.887h-2.33v6.987A10.001 10.001 0 0 0 22 12Z"/></svg>
                     </a>
                     <a
-                      href="https://instagram.com/aodour.pk"
+                      href="https://instagram.com/Genze.pk"
                       className="footer-social-link"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -48,7 +48,7 @@ export function Footer({
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2A2.8 2.8 0 1 0 12 15.8 2.8 2.8 0 0 0 12 9.2Zm5.55-.95a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1Z"/></svg>
                     </a>
                     <a
-                      href="https://twitter.com/aodour_pk"
+                      href="https://twitter.com/Genze_pk"
                       className="footer-social-link"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -126,7 +126,7 @@ export function Footer({
               <div className="footer-bottom">
                 <div className="footer-bottom-content">
                   <div className="footer-copyright">
-                    © {new Date().getFullYear()} AODOUR.PK. All rights reserved.
+                    © {new Date().getFullYear()} Genze.PK. All rights reserved.
                   </div>
                   <div className="w-full max-w-[520px]">
                     <TrustBar compact />
