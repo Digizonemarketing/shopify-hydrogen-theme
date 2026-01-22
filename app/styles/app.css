@@ -556,10 +556,8 @@ button:disabled {
 * components/Aside
 * --------------------------------------------------
 */
-@media (max-width: 45em) {
-  html:has(.overlay.expanded) {
-    overflow: hidden;
-  }
+html:has(.overlay.expanded) {
+  overflow: hidden;
 }
 
 aside {
@@ -572,6 +570,7 @@ aside {
   top: 0;
   transition: transform 200ms ease-in-out;
   z-index: 200;
+  overflow-y: auto;
 }
 
 
@@ -632,7 +631,6 @@ aside li {
   right: 0;
   top: 0;
   transition: opacity 400ms ease-in-out;
-  transition: opacity 400ms;
   visibility: hidden;
   z-index: 10;
 }
